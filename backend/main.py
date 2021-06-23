@@ -6,6 +6,7 @@ from core.config import settings
 from db.session import engine
 from db.base import Base
 from apis.base import api_router
+from webapps.base import api_router as webapp_router
 
 ### FUNCTIONS ###
 def create_tables():
@@ -13,6 +14,7 @@ def create_tables():
 
 def include_router(app):
     app.include_router(api_router)
+    app.include_router(webapp_router)
 
 def start_application():
     app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
@@ -23,7 +25,3 @@ def start_application():
 ### MAIN ###
 app = start_application()
 
-### ROUTES ###
-@app.get("/")
-def hello_api():
-    return {"detail":"Hello World!"}
