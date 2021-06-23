@@ -7,6 +7,8 @@ from db.session import engine
 from db.base import Base
 from apis.base import api_router
 from webapps.base import api_router as webapp_router
+from fastapi.staticfiles import StaticFiles
+
 
 ### FUNCTIONS ###
 def create_tables():
@@ -16,10 +18,14 @@ def include_router(app):
     app.include_router(api_router)
     app.include_router(webapp_router)
 
+def configure_static(app):
+    app.mount("/static",StaticFiles(directory="static"),name="static")
+
 def start_application():
     app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
     create_tables()
     include_router(app)
+    configure_static(app)
     return app
 
 ### MAIN ###
